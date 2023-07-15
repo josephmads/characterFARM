@@ -24,6 +24,8 @@ class BasicCharacterModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: str = Field(...)
     description: str = Field(...)
+    backstory: str = Field(...)
+    tags: str = Field(...)
 
     class Config:
         allow_population_by_field_name = True
@@ -32,7 +34,9 @@ class BasicCharacterModel(BaseModel):
         schema_extra = {
             "example": {
                 "name": "Jane Doe",
-                "description": "A basic stand-in example.",
+                "description": "A non-descript person.",
+                "backstory": "Jane has always been average.",
+                "tags": "average, reliable"
             }
         } 
 
@@ -40,6 +44,8 @@ class BasicCharacterModel(BaseModel):
 class UpdateBasicCharacterModel(BaseModel):
     name: Optional[str]
     description: Optional[str]
+    backstory: Optional[str]
+    tags: Optional[str]
 
     class Config:
         arbitrary_types_allowed = True
@@ -47,7 +53,9 @@ class UpdateBasicCharacterModel(BaseModel):
         schema_extra = {
             "example": {
                 "name": "Jane Doe",
-                "description": "A basic stand-in example.",
+                "description": "A non-descript person.",
+                "backstory": "Jane has always been average.",
+                "tags": "average, reliable"
             }
         } 
         
