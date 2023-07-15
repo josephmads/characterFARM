@@ -3,8 +3,9 @@ from config import CFG
 from fastapi import FastAPI, Body, HTTPException, status
 from fastapi.responses import Response, JSONResponse
 from fastapi.encoders import jsonable_encoder
-from typing import Optional, List
+from typing import List
 import motor.motor_asyncio
+import random
 
 from models import *
 
@@ -48,7 +49,6 @@ async def show_basic_character(id: str):
     
     raise HTTPException(status_code=404, detail=f"Character {id} not found")
 
-
 # Search Route: requires MongoDB Atlas and creation of a DB Index.
 @app.get(
     "/basic/search/",
@@ -73,11 +73,23 @@ async def find_basic_character(query):
     
     raise HTTPException(status_code=404, detail=f'"{query}" not found')
 
+@app.get(
+        "/basic/random/",
+        response_description="Get a random basic character",
+        response_model=BasicCharacterModel
+        )
+async def random_basic_character():
+    total_characters = await db["basic"].count_documents({})
+    random_index = random.randint(0, total_characters -1)
+    random_character = await db["basic"].find().skip(random_index).limit(1).to_list(1)
+
+    return random_character[0]
+
 @app.put(
         "/basic/update/{id}", 
         response_description="Update a basic character", 
         response_model=UpdateBasicCharacterModel)
-async def update_character(id: str, character: UpdateBasicCharacterModel = Body(...)):
+async def update_basic_character(id: str, character: UpdateBasicCharacterModel = Body(...)):
     character = {k: v for k, v in character.dict().items() if v is not None}
 
     if len(character) >= 1:
@@ -97,7 +109,7 @@ async def update_character(id: str, character: UpdateBasicCharacterModel = Body(
 @app.delete(
         "/basic/delete/{id}", 
         response_description="Delete a basic character")
-async def delete_character(id: str):
+async def delete_basic_character(id: str):
     delete_result = await db["basic"].delete_one({"_id": id})
 
     if delete_result.deleted_count == 1:
