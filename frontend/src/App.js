@@ -21,8 +21,8 @@ function App() {
   return (
     <>
     <div>
-      {basics.map(basic => (
-          <li>
+      {basics.map((basic, _id) => (
+          <li key={_id}>
             <div>Name: {basic.name}</div>
             <div>Description: {basic.description}</div>
             <div>Backstory: {basic.backstory}</div>
