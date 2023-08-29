@@ -1,3 +1,4 @@
+import './App.css';
 import { useEffect, useState } from "react"
 
 function App() {
@@ -21,16 +22,18 @@ function App() {
   return (
     <>
     <div>
-      {basics.map((basic, _id) => (
+      <div className='App-header'>characterFARM</div>
+      <div className='App'>
+        {basics.map((basic, _id) => (
           <li key={_id}>
-            <div>Name: {basic.name}</div>
-            <div>Description: {basic.description}</div>
-            <div>Backstory: {basic.backstory}</div>
-            <div>tags: {basic.tags}</div>
+            <div><strong>{basic.name}</strong></div>
+            <div>DESCRIPTION: {basic.description}</div>
+            <div>BACKSTORY: {basic.backstory}</div>
+            <div>TAGS: {basic.tags}</div>
             <br></br>
           </li>
-      
-      ))}
+        ))}
+      </div>
     </div>
     </>
   );
