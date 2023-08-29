@@ -1,42 +1,22 @@
-import './App.css';
-import { useEffect, useState } from "react"
+import React from 'react';
+import Navbar from './components/Navbar';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages';
+import AllBasic from './pages/AllBasic';
+import SearchBasic from './pages/SearchBasic';
+
 
 function App() {
-  const [basics, setBasic] = useState([])
-
-  useEffect(() => {
-    const fetchAllBasic = async () => {
-        const response = await fetch("/basic/all/")
-        const fetchedBasic = await response.json()
-        setBasic(fetchedBasic)
-    }
-
-    const interval = setInterval(fetchAllBasic, 1000)
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
- 
-
-  return (
-    <>
-    <div>
-      <div className='App-header'>characterFARM</div>
-      <div className='App'>
-        {basics.map((basic, _id) => (
-          <li key={_id}>
-            <div><strong>{basic.name}</strong></div>
-            <div>DESCRIPTION: {basic.description}</div>
-            <div>BACKSTORY: {basic.backstory}</div>
-            <div>TAGS: {basic.tags}</div>
-            <br></br>
-          </li>
-        ))}
-      </div>
-    </div>
-    </>
-  );
+	return (
+		<Router>
+			<Navbar />
+			<Routes>
+				<Route exact path='/' element={<Home />} />
+				<Route path='/all-basic' element={<AllBasic />} />
+				<Route path='/search-basic' element={<SearchBasic />} />
+			</Routes>
+		</Router>
+	);
 }
 
 export default App;
