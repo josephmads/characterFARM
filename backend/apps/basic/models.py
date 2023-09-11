@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field
 from bson import ObjectId
 from typing import Optional
 
@@ -25,7 +25,7 @@ class BasicCharacterModel(BaseModel):
     name: str = Field(...)
     description: str = Field(...)
     backstory: str = Field(...)
-    tags: str = Field(...)
+    tags: list = Field(...)
 
     class Config:
         allow_population_by_field_name = True
@@ -36,7 +36,7 @@ class BasicCharacterModel(BaseModel):
                 "name": "Jane Doe",
                 "description": "A non-descript person.",
                 "backstory": "Jane has always been average.",
-                "tags": "average, reliable"
+                "tags": ["average", "reliable"]
             }
         } 
 
@@ -45,7 +45,7 @@ class UpdateBasicCharacterModel(BaseModel):
     name: Optional[str]
     description: Optional[str]
     backstory: Optional[str]
-    tags: Optional[str]
+    tags: Optional[list]
 
     class Config:
         arbitrary_types_allowed = True
@@ -55,7 +55,7 @@ class UpdateBasicCharacterModel(BaseModel):
                 "name": "Jane Doe",
                 "description": "A non-descript person.",
                 "backstory": "Jane has always been average.",
-                "tags": "average, reliable"
+                "tags": ["average", "reliable"]
             }
         } 
         
